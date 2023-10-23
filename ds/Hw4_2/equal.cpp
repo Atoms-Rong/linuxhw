@@ -1,6 +1,29 @@
-/*
+#include <iostream>
+#include <string>
 
-bool Equal(node* s, node* t){
+template <class T>
+struct node{
+    int type;
+    union data{
+        int ref;
+        T val;
+        node* hlink;
+    }info;
+    struct node* tlink;
+
+    node(){
+        type = 0;
+        info.ref = 0;
+        tlink = NULL;
+    }
+    node(const node& n){
+        type = n.type;
+        info = n.info;
+        tlink = n.tlink;
+    }
+};
+template <class T>
+bool Equal(node<T>* s, node<T>* t){
     if(s == NULL && t == NULL) return true;
     if(s == NULL || t == NULL) return false;
     if(s->type != t->type) return false;
@@ -30,4 +53,3 @@ bool Equal(node* s, node* t){
     }
     return Equal(s->tlink, t->tlink);
 }
-*/
