@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 template <class T>
 struct BinNode{
     T data;
@@ -19,7 +18,7 @@ void CreateBinTree(istream &in,BinNode<char>* &root){
     stack<BinNode<char>*> stk;
     stk.push(root);
     char ch;
-    int flag = 1;
+    int flag = 2;
     while(in >> ch){
         if(ch == '#') break;
         BinNode<char>* &p = stk.top();
@@ -95,9 +94,11 @@ int main(){
     cout << "The tree is: ";
     printBinTree(root);
     cout << endl;
+    cout << "input two nodes that you want to find their LCA:";
     char a, b;
     cin >> a >> b;
     cout << (getLCA(root, a, b))->data << endl;
+    cout << "The max distance is:"; 
     cout << maxDistance(root) << endl;
     deleteBinTree(root);
     return 0;
