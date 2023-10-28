@@ -80,15 +80,20 @@ BinNode<char>* getLCA(BinNode<char>* root, char x, char y){
     return NULL;
 }
 
-int depth(BinNode<char>* root){
+int height(BinNode<char>* root, int &dist){
     if(root == NULL) return 0;
-    int l = depth(root->lchild);
-    int r = depth(root->rchild);
-    return max(l, r) + 1;
+    int l = height(root->lchild, dist);
+    int r = height(root->rchild, dist);
+    if(dist < l + r){
+        dist = l + r;
+    }
+    return l > r ? l + 1 : r + 1;
 }
 
 int maxDistance(BinNode<char>* root){
-    return depth(root->lchild) + depth(root->rchild);
+    int dist = -1;
+    height(root, dist);
+    return dist;
 }
 
 int main(){
