@@ -10,44 +10,46 @@ struct BinNode{
     BinNode<T> *rchild;
 
 };
+
 void printBinNode(BinNode<char> *root){
     if(root == NULL) cout << "NULL" << endl;
     else cout << root->data << endl << root->lchild << " " << root->rchild << endl;
 }
-void CreateBinTree(istream &in,BinNode<char>* &root){
+
+void CreateBinTree(istream &in, BinNode<char>* &root){
     stack<BinNode<char>*> stk;
-    stk.push(root);
+    stk.push(NULL);
     char ch;
     int flag = 2;
+    BinNode<char>* p;
     while(in >> ch){
         if(ch == '#') break;
-        BinNode<char>* &p = stk.top();
         if(ch >= 'A' && ch <= 'Z'){
             p = new BinNode<char>;
             p->data = ch;
-            if(flag){
+            if(root == NULL){
                 root = p;
-                flag = 0;
+            }
+            else{
+                if(flag == 1) stk.top()->lchild = p;
+                else if(flag == 2) stk.top()->rchild = p;
             }
         }
         else if(ch == '('){
-            stk.push(p->lchild);
+            stk.push(p);
+            flag = 1;
         }
         else if(ch == ','){
-            stk.pop();
-            stk.top()->lchild = p;
-            stk.push(stk.top()->rchild);
+            flag = 2;
         }
         else if(ch == ')'){
             stk.pop();
-            stk.top()->rchild = p;
         }
     }
-    return;
 }
 
-
 void printBinTree(BinNode<char> *root){
+
     if(root == NULL) return;
     cout << root->data;
     if(root->lchild != NULL || root->rchild != NULL){
@@ -77,6 +79,7 @@ BinNode<char>* getLCA(BinNode<char>* root, char x, char y){
     if(l != NULL && r != NULL) return root;
     return NULL;
 }
+
 int depth(BinNode<char>* root){
     if(root == NULL) return 0;
     int l = depth(root->lchild);
